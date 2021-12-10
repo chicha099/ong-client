@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import { getProject } from "../../Store/Actions/actionGetProjects.js"
+import { useDispatch } from "react-redux";
 import Styles from "./Projects.module.css";
+import { Button } from "@mui/material";
 
 
 
@@ -10,16 +12,21 @@ import Styles from "./Projects.module.css";
 export default function Projects(props) {
 
   let projects = useSelector((state) => state.project.projects);
+  const dispatch = useDispatch()
 
+  console.log("TOY AQUI",projects)
   // Paginacion
   // Estados de la paginacion
   let [currentPage, setCurrentPage] = useState(1);
-  let [itemForPage, setItemForPage] = useState(1);
+  let [itemForPage, setItemForPage] = useState(6);
 
   let [pageNumberLimit, setpageNumberLimit] = useState(5);
   let [maxPageNumberLimit, setmaxPageNumberLimit] = useState(5);
   let [minPagaNumberLimit, setminPagaNumberLimit] = useState(0);
 
+  useEffect(() => {
+    dispatch(getProject())
+}, [dispatch])
   // manejadores de los eventos de los clicks
   const handleClick = (e) => {
     setCurrentPage(Number(e.target.id));
@@ -87,23 +94,6 @@ export default function Projects(props) {
 
   return (
     <>
-      <div>
-        <p
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
-            marginLeft: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <Link style={{ marginRight: ".3rem", color: "#62A3F7" }} to="/">
-            Menu principal
-          </Link>
-          {">"} Projectos
-        </p>
-      </div>
-
-
       <div className={Styles.projectsContainer}>
         <h1>Conoce nuestros proyectos</h1>
 
@@ -114,21 +104,29 @@ export default function Projects(props) {
         {currentItems.length > 0 ? (
           currentItems.map((project) => (
             <div
-              style={{ backgroundImage: `url(${project.img})` }}
-              className={Styles.cardContainer}
-              key={project.id}
-            >
-              <h2>{project.nameProject}</h2>
-              <h4>{project.description}</h4>
-              <Link to={`/proyectos/${project.id}`}>
-                <button>Ver mas...</button>
-              </Link>
+                className={Styles.cardContainer}
+                style={{ backgroundImage: `url(${project.img})`}}
+                key={project.id}
+              >
+              <div className={Styles.blackEffect}>
+              
+                  <div className={Styles.containerDescriptionAndTitle}>
+                    <h2>{project.title}</h2>
+                    <h4>{project.description.substr(0,500)}...</h4>
+                  </div>
+
+                  <div className={Styles.viewMoreButton}>
+                    <Link to={`/proyectos/${project.id}`}>
+                      <Button  variant="outlined">Ver mas</Button>
+                    </Link>
+                  </div>
+                  
+              </div>
             </div>
           ))
         ) : (
           <h2>No hay projectos</h2>
         )}
-
 
         <div >
           <ul className={Styles.pageNumbers}>

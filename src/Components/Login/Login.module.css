@@ -76,7 +76,9 @@ html {
 
 /* Inputs */
 .containersLabelField input {
-    color: black;
+
+    color: rgb(0, 0, 0);
+
 }
 
 input:-webkit-autofill,

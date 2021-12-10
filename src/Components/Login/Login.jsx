@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { startSesion } from "../../Store/Actions/actionLogin";
@@ -7,9 +7,7 @@ import Styles from "./Login.module.css"
 import { FcGoogle } from "react-icons/fc";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase-config";
-import { signInWithPopup, GoogleAuthProvider } from "@firebase/auth";
-// import ErrorComponent from "../Error/ErrorComponent";
+
 
 const validation = (value) => {
   const errors = {};
@@ -34,29 +32,16 @@ export default function Login() {
   const history = useHistory();
 
   useEffect(() => {
-    if (userOn) {
-      history.push("/users");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userOn]);
 
   const handleSubmit = (value, { setSubmitting }) => {
     setSubmitting(false);
     dispatch(startSesion(value));
-    dispatch(history.push('/users'))
+    // Se comento porque apenas se logeaba lo redirigia y no le daba tiempo a generar el token!!
+    // dispatch(history.push('/users'))
   };
 
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((res) => {
-        console.log(res)
 
-        history.push("/users")
-
-      })
-  }
-  console.log("AAA", userOn)
   return (
     !userOn && (
       // Contenedor principal de todo el componente
@@ -113,7 +98,7 @@ export default function Login() {
                     <p style={{ color: "#fff", margin: "1rem 0" }}> o </p>
 
 
-                    <button className={Styles.containerIcon} onClick={() => signInWithGoogle()}>
+                    <button className={Styles.containerIcon} >
                       <FcGoogle style={{ fontSize: "2rem" }} />
                       <p>Ingresar con google</p>
                     </button>
@@ -121,22 +106,13 @@ export default function Login() {
 
                     <p style={{ color: "#fff", marginTop: "1rem" }}>Si todavia no tenes tu cuenta puedes<Link style={{ color: "#2EC4B6" }} to="/register"> <b>registrarte aqui</b> </Link> </p>
 
-
                   </div>
                 </Form>
               )}
             </Formik>
 
-
-
-
           </div>
         </div>
-
-        <Link to='/register'>
-          Create user
-        </Link>
-
       </div>
     )
   );
