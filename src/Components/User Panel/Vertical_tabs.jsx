@@ -185,7 +185,7 @@ const allTransactions = useSelector((state) => state.donations.allTransactions);
                     {donations.id}
                   </TableCell>
                   <TableCell align="right" sx={{ maxWidth: 900, overflow: 'hidden'}} >{donations.email}</TableCell>
-                  <TableCell align="right">{donations.date.slice(0, 10)}</TableCell>
+                  <TableCell align="right">{donations.amount}</TableCell>
                   <TableCell align="right">{donations.paymentMethod}</TableCell>
                   <TableCell align="right">{donations.status}</TableCell>
                 </TableRow>
@@ -235,7 +235,7 @@ const allTransactions = useSelector((state) => state.donations.allTransactions);
                     {donations.id}
                   </TableCell>
                   <TableCell align="right" sx={{ maxWidth: 900, overflow: 'hidden'}} >{donations.email}</TableCell>
-                  <TableCell align="right">{donations.date.slice(0, 10)}</TableCell>
+                  <TableCell align="right">{donations.amount}</TableCell>
                   <TableCell align="right">{donations.paymentMethod}</TableCell>
                   <TableCell align="right">{donations.status}</TableCell>
                 </TableRow>
